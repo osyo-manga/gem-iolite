@@ -43,7 +43,7 @@ p [{name: :homu}, {name: :mami}].map { |it| it[:name] }
 # Using iolite
 #######################################
 
-# using arg1, arg1...
+# using arg1, arg2...
 include Iolite::Placeholders
 
 p (1..5).map &arg1 + 3
