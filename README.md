@@ -21,9 +21,6 @@ Or install it yourself as:
 ```ruby
 require "iolite"
 
-# using arg1, arg1...
-include Iolite::Placeholders
-
 
 #######################################
 # Using block
@@ -45,6 +42,9 @@ p [{name: :homu}, {name: :mami}].map { |it| it[:name] }
 #######################################
 # Using iolite
 #######################################
+
+# using arg1, arg1...
+include Iolite::Placeholders
 
 p (1..5).map &arg1 + 3
 # => [4, 5, 6, 7, 8]
