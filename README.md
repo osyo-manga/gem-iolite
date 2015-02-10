@@ -18,11 +18,50 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+```ruby
+require "iolite"
+
+# using arg1, arg1...
+include Iolite::Placeholders
+
+
+#######################################
+# Using block
+#######################################
+
+p (1..5).map { |it| it + 3 }
+# => [4, 5, 6, 7, 8]
+
+p (1..5).inject { |memo, item| memo + item }
+# => 15
+
+p ["homu", "mami", "an"].inject(0) { |memo, item| memo + item.length }
+# => 10
+
+p [{name: :homu}, {name: :mami}].map { |it| it[:name] }
+# => [:homu, :mami]
+
+
+#######################################
+# Using iolite
+#######################################
+
+p (1..5).map &arg1 + 3
+# => [4, 5, 6, 7, 8]
+
+p (1..5).inject &arg1 + arg2
+# => 15
+
+p ["homu", "mami", "an"].inject 0, &arg1 + arg2.length
+# => 10
+
+p [{name: :homu}, {name: :mami}].map &arg1[:name]
+# => [:homu, :mami]
+```
 
 ## Contributing
 
-1. Fork it ( https://github.com/[my-github-username]/iolite/fork )
+1. Fork it ( https://github.com/osyo-manga/gem-iolite )
 2. Create your feature branch (`git checkout -b my-new-feature`)
 3. Commit your changes (`git commit -am 'Add some feature'`)
 4. Push to the branch (`git push origin my-new-feature`)
