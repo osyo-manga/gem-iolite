@@ -170,5 +170,31 @@ describe Iolite do
 				expect(f.(-10, "yes")).to eq(nil)
 			end
 		end
+		describe "if_" do
+			describe "if then" do
+				include Iolite::Statement
+				include Iolite::Placeholders
+				it "call then" do
+					f = if_(arg1 > 0)[ arg1, arg1 + arg1 ]
+					expect(f.(10)).to eq(20)
+				end
+				it "call else" do
+					f = if_(arg1 > 0)[ arg1, arg1 + arg1 ]
+					expect(f.(0)).to eq(nil)
+				end
+			end
+			describe "if then else" do
+				include Iolite::Statement
+				include Iolite::Placeholders
+				it "call then" do
+					f = if_(arg1 > 0)[ arg1, arg1 + arg1 ].else_[ arg1, arg1 - arg1 ]
+					expect(f.(10)).to eq(20)
+				end
+				it "call else" do
+					f = if_(arg1 > 0)[ arg1, arg1 + arg1 ].else_[ arg1, arg1 - arg1 ]
+					expect(f.(-10)).to eq(0)
+				end
+			end
+		end
 	end
 end

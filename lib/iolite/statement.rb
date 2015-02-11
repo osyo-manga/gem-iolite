@@ -1,5 +1,6 @@
 require "iolite/lambda"
 require "iolite/functinal"
+require "iolite/statement/if"
 
 module Iolite module Statement
 	def if_else cond, then_, else_
