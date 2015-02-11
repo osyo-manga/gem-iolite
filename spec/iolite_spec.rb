@@ -59,6 +59,16 @@ describe Iolite do
 			end
 		end
 
+		describe "#apply" do
+			include Iolite::Placeholders
+			it "call lambda" do
+				expect(arg1.apply(1, 2).call(lambda { |a ,b| a + b })).to eq(3)
+			end
+			it "call Iolite::Lambda::Wrapper" do
+				expect(arg1.apply(1, 2).call(Iolite::Lambda::Wrapper.new { |a ,b| a + b })).to eq(3)
+			end
+		end
+
 		describe "operators" do
 			it "a + b" do
 				expect((first + first).call(1)).to eq(2)
