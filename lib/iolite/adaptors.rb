@@ -27,6 +27,8 @@ require "iolite/lambda"
 
 
 class Symbol
+	iolite_adaptors_callable false
+
 	def call *args
 		Iolite::Lambda::Wrapper.new(&method(self)).bind(*args)
 	end

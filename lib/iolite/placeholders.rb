@@ -11,9 +11,15 @@ module Iolite module Placeholders
 	module_function :args
 
 	def argument index
-		Lambda::Wrapper.new { |*args|
+		expr = Lambda::Wrapper.new { |*args|
 			args[index]
 		}
+# 		def expr.bind *lambdas
+# 			Lambda::Wrapper.new { |*args|
+# 				Iolite::Functinal.invoke(Iolite::Functinal.invoke(self, *args), *Iolite::Functinal.invoke_a(lambdas, *args))
+# 			}
+# 		end
+		expr
 	end
 	module_function :argument
 
