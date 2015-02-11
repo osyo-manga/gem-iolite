@@ -34,21 +34,21 @@ module Iolite module Lambda
 
 		def bind *lambdas
 			Wrapper.new { |*args|
-				self.call(*Functinal.eval_a(lambdas, *args))
+				self.call(*Functinal.invoke_a(lambdas, *args))
 			}
 		end
 
 		# &&
 		def product rhs
 			Wrapper.new { |*args|
-				Functinal.eval(self, *args) && Functinal.eval(rhs, *args)
+				Functinal.invoke(self, *args) && Functinal.invoke(rhs, *args)
 			}
 		end
 
 		# ||
 		def disjunction rhs
 			Wrapper.new { |*args|
-				Functinal.eval(self, *args) || Functinal.eval(rhs, *args)
+				Functinal.invoke(self, *args) || Functinal.invoke(rhs, *args)
 			}
 		end
 	end
