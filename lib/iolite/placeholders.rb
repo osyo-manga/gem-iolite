@@ -22,11 +22,6 @@ module Iolite module Placeholders
 	end
 	module_function :arg1
 
-	def arg1
-		argument 0
-	end
-	module_function :arg1
-
 	def arg2
 		argument 1
 	end
