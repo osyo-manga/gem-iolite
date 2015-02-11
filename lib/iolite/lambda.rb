@@ -1,14 +1,6 @@
 require "iolite/adaptors"
 
 module Iolite module Lambda
-	def self.invoke func, *args
-		func.callable_by_iolite_lambda? ? func.call(*args) : func
-	end
-
-	def self.invoke_a funcs, *args
-		funcs.map { |func| Lambda.invoke(func, *args) }
-	end
-
 	class Wrapper
 		iolite_adaptors_callable true
 
@@ -41,21 +33,21 @@ module Iolite module Lambda
 
 		def bind *lambdas
 			Wrapper.new { |*args|
-				self.call(*Lambda.invoke_a(lambdas, *args))
+				self.call(*Adaptors.eval_a(lambdas, *args))
 			}
 		end
 
 		# &&
 		def product rhs
 			Wrapper.new { |*args|
-				Lambda.invoke(self, *args) && Lambda.invoke(rhs, *args)
+				Adaptors.eval(self, *args) && Adaptors.eval(rhs, *args)
 			}
 		end
 
 		# ||
 		def disjunction rhs
 			Wrapper.new { |*args|
-				Lambda.invoke(self, *args) || Lambda.invoke(rhs, *args)
+				Adaptors.eval(self, *args) || Adaptors.eval(rhs, *args)
 			}
 		end
 	end
