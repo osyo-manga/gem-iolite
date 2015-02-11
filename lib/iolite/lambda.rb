@@ -1,3 +1,4 @@
+require "iolite/functinal"
 require "iolite/adaptors"
 
 module Iolite module Lambda
@@ -33,21 +34,21 @@ module Iolite module Lambda
 
 		def bind *lambdas
 			Wrapper.new { |*args|
-				self.call(*Adaptors.eval_a(lambdas, *args))
+				self.call(*Functinal.eval_a(lambdas, *args))
 			}
 		end
 
 		# &&
 		def product rhs
 			Wrapper.new { |*args|
-				Adaptors.eval(self, *args) && Adaptors.eval(rhs, *args)
+				Functinal.eval(self, *args) && Functinal.eval(rhs, *args)
 			}
 		end
 
 		# ||
 		def disjunction rhs
 			Wrapper.new { |*args|
-				Adaptors.eval(self, *args) || Adaptors.eval(rhs, *args)
+				Functinal.eval(self, *args) || Functinal.eval(rhs, *args)
 			}
 		end
 	end
