@@ -11,13 +11,6 @@ module Iolite module Functinal
 	end
 	module_function :invoke_a
 
-# 	def bind func, *args_
-# 		Iolite.lambda { |*args|
-# 			Functinal.invoke(func, *args).to_proc.call(*Functinal.invoke_a(args_, *args))
-# 		}
-# 	end
-# 	module_function :bind
-
 	def value val
 		Iolite.lambda { |*args| val }
 	end
