@@ -12,7 +12,6 @@ module Iolite module Lambda
 		def method_missing method, *args
 			self.class.class_eval {
 				define_method "#{method}" do |*args_|
-# 					Functinal.bind(:"#{method}", self, *args_)
 					self.class.new(&:"#{method}").bind(self, *args_)
 				end
 			}
@@ -30,15 +29,17 @@ module Iolite module Lambda
 		end
 
 		def send *lambdas
-# 			Functinal.bind :send, self, *lambdas
 			Wrapper.new(&:send).bind(self, *lambdas)
 		end
 
 		def bind *lambdas
-# 			Functinal.bind :call, self, *lambdas
 			Wrapper.new { |*args|
 				self.call(*Functinal.invoke_a(lambdas, *args))
 			}
+		end
+
+		def apply *args
+			Wrapper.new(&:call).bind(self, *args)
 		end
 
 		# &&
