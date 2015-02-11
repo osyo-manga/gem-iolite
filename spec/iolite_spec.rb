@@ -119,4 +119,19 @@ describe Iolite do
 			end
 		end
 	end
+
+	describe "Iolite::Statement" do
+		describe "if_else" do
+			include Iolite::Statement
+			include Iolite::Placeholders
+			it "call then" do
+				f = if_else(arg1 > 0, arg2, nil)
+				expect(f.(10, "yes")).to eq("yes")
+			end
+			it "call else" do
+				f = if_else(arg1 > 0, arg2, nil)
+				expect(f.(-10, "yes")).to eq(nil)
+			end
+		end
+	end
 end

@@ -1,7 +1,8 @@
 require "iolite/version"
-require "iolite/lambda.rb"
-require "iolite/adaptors.rb"
-require "iolite/placeholders.rb"
+require "iolite/lambda"
+require "iolite/adaptors"
+require "iolite/placeholders"
+require "iolite/statement"
 
 module Iolite
 	def lambda &block
