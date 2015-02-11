@@ -32,9 +32,27 @@ describe Iolite do
 			end
 		end
 
+		describe "#bind" do
+			include Iolite::Placeholders
+			f = Iolite::Lambda::Wrapper.new { |a, b| a + b }
+			it "argument" do
+				expect(f.bind(-3, 1).call()).to eq(-2)
+			end
+			it "argument" do
+				expect(f.bind(arg2, arg1).call(-1, 3)).to eq(2)
+			end
+		end
+
 		describe "#send" do
-			it "call meethod" do
+			it "call method" do
 				expect(first.send(:to_s).call(10).class).to eq(String)
+			end
+			it "call method with args" do
+				expect(first.send(:+, 1).call(2)).to eq(3)
+			end
+			include Iolite::Placeholders
+			it "call method with placeholders" do
+				expect(first.send(:+, arg2).call(2, -2)).to eq(0)
 			end
 		end
 
@@ -84,6 +102,9 @@ describe Iolite do
 
 	describe "Iolite::Placeholders" do
 		include Iolite::Placeholders
+		it "arg1" do
+			expect(arg1.call(1, 2)).to eq(1)
+		end
 		it "arg1 + arg2" do
 			expect((arg1 + arg2).call(1, 2)).to eq(3)
 		end
@@ -92,6 +113,9 @@ describe Iolite do
 		end
 		it "args" do
 			expect((args[arg2]).call(1, 3, 2, 4)).to eq(4)
+		end
+		it "bind" do
+			# expect(arg1.bind(10).call(Iolite.lambda { |x| x + x})).to eq(20)
 		end
 	end
 
