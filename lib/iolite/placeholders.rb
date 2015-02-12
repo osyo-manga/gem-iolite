@@ -12,7 +12,7 @@ module Iolite module Placeholders
 
 	def argument index
 		expr = Lambda::Wrapper.new { |*args|
-			args[index]
+			args[index-1]
 		}
 # 		def expr.bind *lambdas
 # 			Lambda::Wrapper.new { |*args|
@@ -23,28 +23,14 @@ module Iolite module Placeholders
 	end
 	module_function :argument
 
-	def arg1
-		argument 0
+	def prepare n
+		1.upto(n).each { |i|
+			define_method("arg#{i}") do
+				argument i
+			end
+			module_function "arg#{i}"
+		}
 	end
-	module_function :arg1
-
-	def arg2
-		argument 1
-	end
-	module_function :arg2
-
-	def arg3
-		argument 2
-	end
-	module_function :arg3
-
-	def arg4
-		argument 3
-	end
-	module_function :arg4
-
-	def arg5
-		argument 4
-	end
-	module_function :arg5
+	module_function :prepare
+	prepare(10)
 end end
