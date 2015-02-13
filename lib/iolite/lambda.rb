@@ -9,13 +9,8 @@ module Iolite module Lambda
 			@block = block
 		end
 
-		def method_missing method, *args
-			self.class.class_eval {
-				define_method "#{method}" do |*args_|
-					self.class.new(&:"#{method}").bind(self, *args_)
-				end
-			}
-			__send__(method, *args)
+		def call *args
+			@block.call(*args)
 		end
 
 		def to_proc
@@ -24,18 +19,18 @@ module Iolite module Lambda
 			}
 		end
 
-		def call *args
-			@block.call(*args)
-		end
-
-		def send *lambdas
-			Wrapper.new(&:send).bind(self, *lambdas)
-		end
-
 		def bind *lambdas
 			Wrapper.new { |*args|
 				self.call(*Functinal.invoke_a(lambdas, *args))
 			}
+		end
+
+		def send symbol, *args
+			Wrapper.new(&:send).bind(self, symbol, *args)
+		end
+
+		def method_missing method, *args
+			send(method, *args)
 		end
 
 		def apply *args
