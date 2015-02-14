@@ -1,7 +1,7 @@
 
 class Module
 	def iolite_adaptor_callable flag = nil
-		if flag
+		if flag == nil
 			define_method(:callable_by_iolite_lambda?) {
 				self.respond_to?(:call)
 			}

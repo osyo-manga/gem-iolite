@@ -1,4 +1,6 @@
 require './spec_helper'
+require "iolite/adaptor/array"
+require "iolite/adaptor/hash"
 
 describe Iolite do
 	it 'has a version number' do
@@ -139,7 +141,7 @@ describe Iolite do
 			end
 			it "not callable" do
 				# UnCallableFromIolite.new.class
-				# expect(arg1.send(:class).bind(UnCallableFromIolite.new).call(10)).to eq(UnCallableFromIolite)
+				expect(arg1.send(:class).bind(UnCallableFromIolite.new).call(10)).to eq(UnCallableFromIolite)
 			end
 			class CallableFromIolite
 				iolite_adaptor_callable
@@ -149,10 +151,10 @@ describe Iolite do
 			end
 			it "callable" do
 				# CallableFromIolite.new.call("homu")
-				# expect(arg1.send(:class).bind(CallableFromIolite.new).call("homu")).to eq(String)
+				expect(arg1.send(:class).bind(CallableFromIolite.new).call("homu")).to eq(String)
 			end
 			it "wrap" do
-				# expect(arg1.send(:class).bind(Iolite.wrap CallableFromIolite.new).call("homu")).to eq(CallableFromIolite)
+				expect(arg1.send(:class).bind(Iolite.wrap CallableFromIolite.new).call("homu")).to eq(CallableFromIolite)
 			end
 		end
 	end
