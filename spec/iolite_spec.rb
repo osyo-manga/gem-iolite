@@ -157,10 +157,16 @@ describe Iolite do
 				expect(arg1.send(:class).bind(Iolite.wrap CallableFromIolite.new).call("homu")).to eq(CallableFromIolite)
 			end
 		end
-		describe "Adapt array" do
+		describe "Adapt Array" do
 			include Iolite::Placeholders
 			it "apply argument" do
 				expect([arg1, arg2, 10].to_proc.call(1, 2)).to eq([1, 2, 10])
+			end
+		end
+		describe "Adapt Hash" do
+			include Iolite::Placeholders
+			it "apply argument" do
+				expect({ arg1 => arg2 }.to_proc.call(:name, "homu")).to eq({name: "homu"})
 			end
 		end
 	end
