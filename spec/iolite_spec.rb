@@ -157,6 +157,12 @@ describe Iolite do
 				expect(arg1.send(:class).bind(Iolite.wrap CallableFromIolite.new).call("homu")).to eq(CallableFromIolite)
 			end
 		end
+		describe "Adapt array" do
+			include Iolite::Placeholders
+			it "apply argument" do
+				expect([arg1, arg2, 10].to_proc.call(1, 2)).to eq([1, 2, 10])
+			end
+		end
 	end
 
 	describe "Iolite::Statement" do
