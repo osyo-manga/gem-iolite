@@ -132,6 +132,9 @@ describe Iolite do
 		it "bind" do
 			# expect(arg1.bind(10).call(Iolite.lambda { |x| x + x})).to eq(20)
 		end
+		it "alias _1, arg1" do
+			expect((_1 + _2).call(1, 2)).to eq(3)
+		end
 	end
 
 	describe "Iolite::adaptor" do

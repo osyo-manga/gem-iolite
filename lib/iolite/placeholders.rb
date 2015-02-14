@@ -29,6 +29,7 @@ module Iolite module Placeholders
 				argument i
 			end
 			module_function "arg#{i}"
+			alias_method "_#{i}", "arg#{i}"
 		}
 	end
 	module_function :prepare
