@@ -1,9 +1,9 @@
 require "iolite/functinal"
-require "iolite/adaptors"
+require "iolite/adaptor"
 
 module Iolite module Lambda
 	class Wrapper
-		iolite_adaptors_callable true
+		iolite_adaptor_callable true
 
 		def initialize &block
 			@block = block

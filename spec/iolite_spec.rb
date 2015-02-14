@@ -132,7 +132,7 @@ describe Iolite do
 		end
 	end
 
-	describe "Iolite::Adaptors" do
+	describe "Iolite::adaptor" do
 		describe "Adapt callable" do
 			include Iolite::Placeholders
 			class UnCallableFromIolite
@@ -142,7 +142,7 @@ describe Iolite do
 				# expect(arg1.send(:class).bind(UnCallableFromIolite.new).call(10)).to eq(UnCallableFromIolite)
 			end
 			class CallableFromIolite
-				iolite_adaptors_callable
+				iolite_adaptor_callable
 				def call n
 					n
 				end

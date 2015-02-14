@@ -1,6 +1,6 @@
 require "iolite/version"
 require "iolite/lambda"
-require "iolite/adaptors"
+require "iolite/adaptor"
 require "iolite/placeholders"
 require "iolite/statement"
 
