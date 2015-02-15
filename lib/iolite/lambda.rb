@@ -3,6 +3,15 @@ require "iolite/adaptor"
 
 module Iolite module Lambda
 	class Wrapper
+		# alias Object methods to _{method}
+		methods.each{ |method|
+			next if method !~ /\w/
+			define_method("_#{method}"){ |*args|
+				send(method, *args)
+			}
+		}
+
+		# callable by Functinal.invoke
 		iolite_adaptor_callable true
 
 		def initialize &block
@@ -26,7 +35,10 @@ module Iolite module Lambda
 		end
 
 		def send symbol, *args
-			Wrapper.new(&:send).bind(self, symbol, *args)
+			Wrapper.new { |*args_|
+				self.call(*args_).send(symbol, *Functinal.invoke_a(args, *args_))
+			}
+# 			Wrapper.new(&:send).bind(self, symbol, *args)
 		end
 
 		def method_missing method, *args
@@ -35,6 +47,21 @@ module Iolite module Lambda
 
 		def apply *args
 			Wrapper.new(&:call).bind(self, *args)
+		end
+
+		# ==
+		def == *args
+			send(:==, *args)
+		end
+
+		# =~
+		def =~ *args
+			send(:=~, *args)
+		end
+
+		# !
+		def ! *args
+			send(:!, *args)
 		end
 
 		# &&

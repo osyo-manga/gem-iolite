@@ -87,6 +87,15 @@ describe Iolite do
 			it "a + {value}" do
 				expect((first + 3).call(4)).to eq(7)
 			end
+			it "==" do
+				expect([1, 2, 3].any? &first == 3).to eq(true)
+			end
+			it "=~" do
+				expect(["homu", "123", "mami"].any? &first =~ /\d+/).to eq(true)
+			end
+			it "!" do
+				expect([1, nil, 6].find_index &!first).to eq(1)
+			end
 		end
 
 		describe "#method_missing" do
