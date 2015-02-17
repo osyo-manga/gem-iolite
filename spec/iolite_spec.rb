@@ -1,6 +1,6 @@
 require './spec_helper'
-require "iolite/adaptor/array"
-require "iolite/adaptor/hash"
+require "iolite/adaptored/array"
+require "iolite/adaptored/hash"
 
 describe Iolite do
 	it 'has a version number' do
@@ -9,16 +9,16 @@ describe Iolite do
 
 	describe "Iolite" do
 		it "::lambda" do
-			expect(Iolite.lambda { |a, b| a + b }.class).to eq(Iolite::Lambda::Wrapper)
+			expect(Iolite.lambda { |a, b| a + b }.class).to eq(Iolite::Lambda::Block)
 		end
 		it "::wrap" do
 			expect((Iolite.wrap lambda { |a, b| a + b }).call(1, 2).class).to eq(Proc)
 		end
 	end
 
-	describe "Iolite::Lambda::Wrapper" do
-		first = Iolite::Lambda::Wrapper.new { |x| x }
-		plus = Iolite::Lambda::Wrapper.new { |a, b| a + b }
+	describe "Iolite::Lambda::Block" do
+		first = Iolite::Lambda::Block.new { |x| x }
+		plus = Iolite::Lambda::Block.new { |a, b| a + b }
 		describe "#call" do
 			it "call" do
 				expect(first.call(10)).to eq(10)
@@ -36,7 +36,7 @@ describe Iolite do
 
 		describe "#bind" do
 			include Iolite::Placeholders
-			f = Iolite::Lambda::Wrapper.new { |a, b| a + b }
+			f = Iolite::Lambda::Block.new { |a, b| a + b }
 			it "argument" do
 				expect(f.bind(-3, 1).call()).to eq(-2)
 			end
@@ -44,7 +44,7 @@ describe Iolite do
 				expect(f.bind(arg2, arg1).call(-1, 3)).to eq(2)
 			end
 			it "operator" do
-				expect(Iolite::Lambda::Wrapper.new(&:+).bind(arg2, arg1).call(-1, 3)).to eq(2)
+				expect(Iolite::Lambda::Block.new(&:+).bind(arg2, arg1).call(-1, 3)).to eq(2)
 			end
 		end
 
@@ -66,8 +66,8 @@ describe Iolite do
 			it "call lambda" do
 				expect(arg1.apply(1, 2).call(lambda { |a ,b| a + b })).to eq(3)
 			end
-			it "call Iolite::Lambda::Wrapper" do
-				expect(arg1.apply(1, 2).call(Iolite::Lambda::Wrapper.new { |a ,b| a + b })).to eq(3)
+			it "call Iolite::Lambda::Block" do
+				expect(arg1.apply(1, 2).call(Iolite::Lambda::Block.new { |a ,b| a + b })).to eq(3)
 			end
 		end
 
@@ -107,7 +107,7 @@ describe Iolite do
 			end
 			it "call Object#*" do
 				# not call method_missing
-				expect(first.class).to eq(Iolite::Lambda::Wrapper)
+				expect(first.class).to eq(Iolite::Lambda::Block)
 			end
 			it "call Object#* from #send" do
 				expect(first.send(:class).call("homu")).to eq(String)
@@ -156,7 +156,7 @@ describe Iolite do
 				expect(arg1.send(:class).bind(UnCallableFromIolite.new).call(10)).to eq(UnCallableFromIolite)
 			end
 			class CallableFromIolite
-				iolite_adaptor_callable
+				include Iolite::Adaptor::Callable
 				def call n
 					n
 				end

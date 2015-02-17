@@ -26,7 +26,7 @@ module Iolite module Statement
 		end
 
 		def [](*then_)
-			if_then = Iolite::Lambda::Wrapper.new { |*args|
+			if_then = Iolite::Lambda::Block.new { |*args|
 				if Iolite::Functinal.invoke(@cond, *args)
 					Iolite::Functinal.invoke_a(then_, *args).last
 				end
