@@ -15,6 +15,23 @@ module Iolite module Functinal
 		Iolite.lambda { |*args| val }
 	end
 	module_function :value
+
+	class Reference
+		def []=(ref, value)
+			Iolite.lambda { |*args|
+				ref.replace Iolite::Functinal.invoke(value, *args)
+			}
+		end
+
+		def [](ref)
+			value ref
+		end
+	end
+
+	def ref
+		Reference.new
+	end
+	module_function :ref
 end end
 
 
