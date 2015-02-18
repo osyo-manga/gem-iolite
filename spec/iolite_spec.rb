@@ -1,4 +1,4 @@
-require './spec_helper'
+load 'spec_helper.rb'
 require "iolite/adaptored/array"
 require "iolite/adaptored/hash"
 
