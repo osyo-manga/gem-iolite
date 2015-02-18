@@ -1,7 +1,7 @@
 require "iolite/adaptor"
 
-module Iolite module Lambda
-	class Block
+module Iolite
+	class Lambda
 		include Iolite::Adaptor::All
 
 		def initialize &block
@@ -12,4 +12,14 @@ module Iolite module Lambda
 			@block.call(*args)
 		end
 	end
-end end
+
+	def lambda &block
+		Iolite::Lambda.new &block
+	end
+	module_function :lambda
+
+	def wrap value
+		Iolite.lambda { |*args| value }
+	end
+	module_function :wrap
+end

@@ -1,17 +1,15 @@
 require "iolite/lambda"
 
 module Iolite module Placeholders
-	include Lambda
-
 	def args
-		Lambda::Block.new { |*args|
+		Lambda.new { |*args|
 			args
 		}
 	end
 	module_function :args
 
 	def argument index
-		Lambda::Block.new { |*args|
+		Lambda.new { |*args|
 			args[index-1]
 		}
 	end
