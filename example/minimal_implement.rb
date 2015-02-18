@@ -34,7 +34,7 @@ result = f.call(1, 2)
 # call
 # 1. (arg1 + arg2).call(1, 2)
 # 2. arg1.send(:+, arg2).call(1, 2)
-# 3. invoke(arg1, 1, 2).send(invoke(:+, 1, 2), invoke(arg2, 1, 2))
+# 3. arg1.call(1, 2).send(invoke(:+, 1, 2), invoke(arg2, 1, 2))
 # 4. arg1.call(1, 2).send(:+, arg2.call(1, 2))
 # 5. [1, 2][0].send(:+, [1, 2][1])
 # 6. 1.send(:+, 2)
