@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/osyo-manga/gem-iolite.svg?branch=master)](https://travis-ci.org/osyo-manga/gem-iolite)
+
 # Iolite
 
 TODO: Write a gem description
