@@ -1,18 +1,30 @@
 load 'spec_helper.rb'
+require "iolite/functinal"
+
 
 describe "Iolite::Functinal" do
 	include Iolite::Functinal
 	class Callable
-			def iolite_functinal_invoke_call a, b
-				a + b
-			end
+		def iolite_functinal_invoke_call a, b
+			a + b
+		end
 	end
 	class Uncallable
 		def call x
 			x + x
 		end
 	end
-	describe "invoke" do
+
+	class First
+		def iolite_functinal_invoke_call *args
+			args[0]
+		end
+		def call *args
+			args[0]
+		end
+	end
+
+	describe ".invoke" do
 		it "callable" do
 			expect(invoke(Callable.new, 1, 2)).to eq(3)
 		end
@@ -26,7 +38,8 @@ describe "Iolite::Functinal" do
 			expect(invoke(proc { |a, b| a + b }, 1, 2).class).to eq(Proc)
 		end
 	end
-	describe "invoke_a" do
+
+	describe ".invoke_a" do
 		it "callable" do
 			expect(invoke_a([Callable.new, Callable.new], 1, 2)).to eq([3, 3])
 		end
@@ -34,12 +47,22 @@ describe "Iolite::Functinal" do
 			expect(invoke_a([1, 2], 1)).to eq([1, 2])
 		end
 	end
-	describe "send" do
+
+	describe ".send" do
 		it "send callable" do
 			expect(send(4, :+, Callable.new).call(1, 2)).to eq(7)
 		end
 		it "send callable" do
 			expect(send(Callable.new, :+, Callable.new).call(1, 2)).to eq(6)
+		end
+	end
+
+	describe ".bind" do
+		it "bind callable" do
+			expect(bind(-> a, b { a + b }, 1, First.new).call(1, 2)).to eq(2)
+		end
+		it "bind next" do
+			expect(bind(-> a, b { a + b }, bind(-> a, b { a + b }, First.new, First.new), First.new).call(3)).to eq(9)
 		end
 	end
 end

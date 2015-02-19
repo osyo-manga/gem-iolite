@@ -1,6 +1,9 @@
+require "iolite/functinal/invoke"
+
 module Iolite module Functinal
 	def bind func, *args_
-		func.class.new { |*args|
+# 		Functinal.apply(lambda { |*args| func }, *args_)
+		Iolite.lambda { |*args|
 			func.call(*invoke_a(args_, *args))
 		}
 	end

@@ -1,4 +1,3 @@
-# require "iolite/lambda"
 require "iolite/functinal/invoke"
 
 module Iolite module Functinal

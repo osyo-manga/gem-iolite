@@ -1,4 +1,5 @@
 require "iolite/functinal/send"
+require "iolite/functinal/invoke"
 
 module Iolite module Adaptor
 	module Send
