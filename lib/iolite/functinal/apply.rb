@@ -1,8 +1,9 @@
 require "iolite/functinal/bind"
+require "iolite/functinal/send"
 
 module Iolite module Functinal
 	def apply func, *args_, &block
-# 		Functinal.bind(Iolite.lambda(&:call), func, *args, &block)
+# 		Functinal.bind(send(func, &:call), *args, &block)
 		Iolite.lambda { |*args|
 			func.call(*args).call(*invoke_a(args_, *args))
 		}

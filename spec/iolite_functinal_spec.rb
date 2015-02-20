@@ -67,14 +67,17 @@ describe "Iolite::Functinal" do
 		it "bind next" do
 			expect(bind(-> a, b { a + b }, bind(-> a, b { a + b }, First.new, First.new), First.new).call(3)).to eq(9)
 		end
+		it "apply first" do
+			expect(bind(First.new, 1, 2).call(-> a, b { a + b })).to eq(3)
+		end
 	end
 
-	describe ".apply" do
-		it "call first" do
-			expect(apply(-> a { -> b { a + b} }, 1).call(2)).to eq(3)
-		end
-		it "NoMethodError" do
-			expect{ apply(-> a { 10 }, 1).call(2) }.to raise_error(NoMethodError)
-		end
-	end
+#	describe ".apply" do
+#		it "call first" do
+#			expect(apply(-> a { -> b { a + b} }, 1).call(2)).to eq(3)
+#		end
+#		it "NoMethodError" do
+#			expect{ apply(-> a { 10 }, 1).call(2) }.to raise_error(NoMethodError)
+#		end
+#	end
 end
