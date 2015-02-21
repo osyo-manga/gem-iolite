@@ -22,4 +22,9 @@ module Iolite
 		Iolite.lambda { |*args| value }
 	end
 	module_function :wrap
+
+	def lazy func
+		Iolite.lambda { |*args| func.call(*args) }
+	end
+	module_function :wrap
 end
