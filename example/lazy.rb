@@ -29,9 +29,9 @@ puts lazy_f.call(1, 2)
 # => 3
 
 
-str = "saya"
-["homu", "mami", "mado"].each &str.lazy.concat(arg1)
+str = "saya."
+["homu", "mami", "mado"].each &str.lazy.concat(arg1 + ".")
 puts str
-# => sayahomumamimado
+# => saya.homu.mami.mado.
 
 
