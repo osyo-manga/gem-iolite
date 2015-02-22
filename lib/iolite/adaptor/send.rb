@@ -6,5 +6,6 @@ module Iolite module Adaptor
 		def send *args, &block
 			Functinal.send(self, *args, &block)
 		end
+		alias_method :iolite_send, :send
 	end
 end end

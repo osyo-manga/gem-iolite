@@ -5,5 +5,6 @@ module Iolite module Adaptor
 		def lazy
 			Iolite.lambda { |*args| self }
 		end
+		alias_method :iolite_lazy, :lazy
 	end
 end end
