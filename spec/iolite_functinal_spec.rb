@@ -23,6 +23,7 @@ describe "Iolite::Functinal" do
 			args[0]
 		end
 	end
+	first = First.new
 
 	describe ".invoke" do
 		it "callable" do
@@ -54,6 +55,9 @@ describe "Iolite::Functinal" do
 		end
 		it "send callable" do
 			expect(send(Callable.new, :+, Callable.new).call(1, 2)).to eq(6)
+		end
+		it "send with block" do
+			expect(send(first, :select){ |it| it > 1 }.call([1, 2, 3])).to eq([2, 3])
 		end
 	end
 
