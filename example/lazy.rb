@@ -19,6 +19,7 @@ end
 x = X.new
 
 # To lazy object
+# lazy return Iolite.lambda { |*args| self }
 lazy_x = x.lazy
 
 # To lazy function
