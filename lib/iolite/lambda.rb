@@ -2,7 +2,15 @@ require "iolite/adaptor"
 
 module Iolite
 	class Lambda
-		include Iolite::Adaptor::All
+# 		include Iolite::Adaptor::All
+		include Iolite::Adaptor::Callable
+		include Iolite::Adaptor::Bind
+		include Iolite::Adaptor::Send
+		include Iolite::Adaptor::MethodMissing
+		include Iolite::Adaptor::ToProc
+		include Iolite::Adaptor::Apply
+		include Iolite::Adaptor::Operators
+
 
 		def initialize &block
 			@block = block

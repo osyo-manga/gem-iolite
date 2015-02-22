@@ -5,6 +5,7 @@ require "iolite/adaptor/to_proc"
 require "iolite/adaptor/apply"
 require "iolite/adaptor/operators"
 require "iolite/adaptor/method_missing"
+require "iolite/adaptor/lazy"
 
 module Iolite module Adaptor
 	module All
@@ -15,5 +16,6 @@ module Iolite module Adaptor
 		include ToProc
 		include Apply
 		include Operators
+		include Lazy
 	end
 end end
