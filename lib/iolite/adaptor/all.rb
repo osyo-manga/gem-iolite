@@ -1,3 +1,4 @@
+require "iolite/adaptor/define_send_original_methods"
 require "iolite/adaptor/callable"
 require "iolite/adaptor/bind"
 require "iolite/adaptor/send"
@@ -17,5 +18,6 @@ module Iolite module Adaptor
 		include Apply
 		include Operators
 		include Lazy
+		include DefineSendOriginalMethods
 	end
 end end

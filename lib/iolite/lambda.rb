@@ -10,6 +10,7 @@ module Iolite
 		include Iolite::Adaptor::ToProc
 		include Iolite::Adaptor::Apply
 		include Iolite::Adaptor::Operators
+		include Iolite::Adaptor::DefineSendOriginalMethods
 
 
 		def initialize &block
