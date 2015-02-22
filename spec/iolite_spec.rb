@@ -222,5 +222,11 @@ describe Iolite do
 				end
 			end
 		end
+		describe "symbol" do
+			include Iolite::Placeholders
+			it "symbol to call" do
+				expect(:eval.(arg1).call("1 + 2")).to eq(3)
+			end
+		end
 	end
 end
