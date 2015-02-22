@@ -22,10 +22,13 @@ describe "Iolite Lambda" do
 
 		describe "#bind" do
 			it "bind argument" do
-				expect(lambda { |a, b| }.bind(1, 2).call()).to eq(3)
+				expect(lambda { |a, b| a + b }.bind(1, 2).call()).to eq(3)
 			end
 			it "bind placeholders" do
-				expect(lambda { |a, b| }.bind(arg2, 2).call(2, 1)).to eq(3)
+				expect(lambda { |a, b| a + b }.bind(arg2, 2).call(2, 1)).to eq(3)
+			end
+			it "bind by placeholders" do
+				expect((arg1 - arg2).bind(arg2, 2).call(1, 1)).to eq(-1)
 			end
 		end
 
