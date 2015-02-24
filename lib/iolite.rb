@@ -7,7 +7,9 @@ require "iolite/statement"
 require "iolite/symbol"
 
 # Not support 1.9.x
-# require "iolite/refinements"
+if RUBY_VERSION.to_f > 2.0
+	require "iolite/refinements"
+end
 
 module Iolite
 	include Functinal
