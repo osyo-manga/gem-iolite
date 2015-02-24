@@ -10,8 +10,6 @@ module Iolite
 		include Iolite::Adaptor::ToProc
 		include Iolite::Adaptor::Apply
 		include Iolite::Adaptor::Operators
-		include Iolite::Adaptor::DefineSendOriginalMethods
-
 
 		def initialize &block
 			@block = block
@@ -20,6 +18,8 @@ module Iolite
 		def call *args
 			@block.call(*args)
 		end
+
+		iolite_define_send_original_methods
 	end
 
 	def lambda &block

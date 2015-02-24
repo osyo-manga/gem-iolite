@@ -18,6 +18,5 @@ module Iolite module Adaptor
 		include Apply
 		include Operators
 		include Lazy
-		include DefineSendOriginalMethods
 	end
 end end
