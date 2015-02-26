@@ -8,8 +8,8 @@ Gem::Specification.new do |spec|
   spec.version       = Iolite::VERSION
   spec.authors       = ["manga_osyo"]
   spec.email         = ["manga.osyo@gmail.com"]
-  spec.summary       = %q{benri}
-  spec.description   = %q{benri}
+  spec.summary       = %q{unblockable library}
+  spec.description   = %q{unblockable library}
   spec.homepage      = ""
   spec.license       = "MIT"
 
