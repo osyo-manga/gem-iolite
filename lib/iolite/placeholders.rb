@@ -17,8 +17,9 @@ module Iolite module Placeholders
 
 	def prepare n
 		1.upto(n).each { |i|
+			const_set("ARG#{i}", argument(i))
 			define_method("arg#{i}") do
-				argument i
+				Placeholders.const_get("ARG#{i}")
 			end
 			module_function "arg#{i}"
 			alias_method "_#{i}", "arg#{i}"
