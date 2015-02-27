@@ -10,4 +10,12 @@ class String
 		}
 		result
 	end
+
+	def to_call_by_eval
+		Iolite.lambda { |*args|
+			gsub(/#{'#{(.*?)}'}/) {
+				eval($1).call(*args)
+			}
+		}
+	end
 end
