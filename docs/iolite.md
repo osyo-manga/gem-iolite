@@ -101,7 +101,7 @@ Iolite::Lazy で定義されていないメソッドであれば `#send` を使�
 
 Iolite::Lazy (Object クラス) のメソッド名で遅延評価したい場合は `#send` または `_{呼び出したいメソッド名}` で遅延評価を定義する事ができます。
 
-```
+```ruby
 Iolite::Lazy.new{}.class
 # => Iolite::Lazy
 
@@ -176,11 +176,6 @@ arg1._to_s.length.call(:homu)
 ## Object#to_lazy
 
 `Object#to_lazy` は自身を遅延評価するオブジェクト（Iolite::Lazy オブジェクト）として返すメソッドです。
-
-```ruby
-```
-
-
 `Object#to_lazy` を使用したい場合は refinements が使える環境であれば、
 
 ```ruby
