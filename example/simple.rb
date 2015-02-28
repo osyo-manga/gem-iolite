@@ -17,7 +17,7 @@ p ["homu", "mami", "an"].inject(0) { |memo, item| memo + item.length }
 p [{name: :homu}, {name: :mami}].map { |it| it[:name] }
 # => [:homu, :mami]
 
-(1..5).map { |it| print it.to_s + ", " }
+p (1..5).map { |it| it.to_s + ", " }
 # => 1, 2, 3, 4, 5,
 
 
@@ -40,7 +40,7 @@ p ["homu", "mami", "an"].inject 0, &arg1 + arg2.length
 p [{name: :homu}, {name: :mami}].map &arg1[:name]
 # => [:homu, :mami]
 
-(1..5).map &:print.(arg1.send(:to_s) + ", ")
+p (1..5).map &arg1._to_s + ", "
 # => 1, 2, 3, 4, 5,
 
 
