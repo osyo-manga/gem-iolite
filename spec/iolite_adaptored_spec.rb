@@ -2,12 +2,13 @@ load 'spec_helper.rb'
 require "iolite"
 require "iolite/adaptored/array"
 require "iolite/adaptored/hash"
-require "iolite/adaptored/proc"
+# require "iolite/adaptored/proc"
 require "iolite/adaptored/string"
 require "iolite/adaptored/object_with_to_lazy"
 
 describe "Iolite Adaptored" do
 	include Iolite::Placeholders
+
 	describe "Array" do
 		it "call" do
 			expect([arg1, arg1, arg1].call(1)).to eq([1, 1, 1])
@@ -47,28 +48,36 @@ describe "Iolite Adaptored" do
 		end
 	end
 
-	describe "Proc" do
-		describe "operator" do
-			it "proc" do
-				expect((proc { 10 } + 20).call()).to eq(30)
-			end
-			it "lambda" do
-				expect((lambda { 10 } + 20).call()).to eq(30)
-			end
-		end
-		describe "bind" do
-			it "proc" do
-				expect(proc { |a, b| a + b }.bind(arg1, 2).call(1)).to eq(3)
-			end
-			it "lambda" do
-				expect(proc { |a, b| a - b }.bind(2, arg1).call(1)).to eq(1)
-			end
-		end
-	end
+#	describe "Proc" do
+#		describe "operator" do
+#			it "proc" do
+#				expect((proc { 10 } + 20).call()).to eq(30)
+#			end
+#			it "lambda" do
+#				expect((lambda { 10 } + 20).call()).to eq(30)
+#			end
+#		end
+#		describe "bind" do
+#			it "proc" do
+#				expect(proc { |a, b| a + b }.bind(arg1, 2).call(1)).to eq(3)
+#			end
+#			it "lambda" do
+#				expect(proc { |a, b| a - b }.bind(2, arg1).call(1)).to eq(1)
+#			end
+#		end
+#	end
 
 	describe "String" do
+		include Iolite::Placeholders
 		it "call" do
 			expect("value:#{arg1}:#{arg2}".call(1, 2)).to eq("value:1:2")
+		end
+		it "#to_call_by_eval" do
+			expect('value:#{ Iolite::Placeholders.arg1 }:#{ Iolite::Placeholders.arg2 }'.to_call_by_eval.call(1, 2)).to eq("value:1:2")
+		end
+		it "#to_call_by_eval binding" do
+			var = 10
+			expect('value:#{ arg1 + arg2 * var }:#{ arg2 - arg1 }'.to_call_by_eval(binding).call(1, 2)).to eq("value:21:1")
 		end
 	end
 
