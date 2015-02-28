@@ -1,7 +1,7 @@
 require "iolite/adaptor"
 
 module Iolite
-	class Lambda
+	class Lazy
 # 		include Iolite::Adaptor::All
 		include Iolite::Adaptor::Callable
 		include Iolite::Adaptor::Bind
@@ -22,18 +22,18 @@ module Iolite
 		iolite_define_send_original_methods
 	end
 
-	def lambda &block
-		Iolite::Lambda.new &block
+	def lazy &block
+		Iolite::Lazy.new &block
 	end
-	module_function :lambda
+	module_function :lazy
 
 	def wrap value
-		Iolite.lambda { |*args| value }
+		Iolite.lazy { |*args| value }
 	end
 	module_function :wrap
 
-	def lazy func
-		Iolite.lambda { |*args| func.call(*args) }
+	def lazy_func func
+		Iolite.lazy { |*args| func.call(*args) }
 	end
 	module_function :wrap
 end

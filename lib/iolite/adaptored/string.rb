@@ -11,10 +11,10 @@ class String
 		result
 	end
 
-	def to_call_by_eval
-		Iolite.lambda { |*args|
+	def to_call_by_eval binding = nil
+		Iolite.lazy { |*args|
 			gsub(/#{'#{(.*?)}'}/) {
-				eval($1).call(*args)
+				eval($1, binding).call(*args)
 			}
 		}
 	end

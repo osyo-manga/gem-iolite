@@ -1,31 +1,31 @@
 load 'spec_helper.rb'
-require "iolite/lambda"
+require "iolite/lazy"
 
 
-describe "Iolite Lambda" do
-	describe "Iolite::Lambda" do
+describe "Iolite lazy" do
+	describe "Iolite::lazy" do
 		include Iolite
-		arg1 = Iolite.lambda { |*args| args[0] }
-		arg2 = Iolite.lambda { |*args| args[1] }
+		arg1 = Iolite.lazy { |*args| args[0] }
+		arg2 = Iolite.lazy { |*args| args[1] }
 
 		describe "#class" do
 			it "#class by Obejct#class" do
-				expect(lambda { |a, b| a + b }.class).to eq(Iolite::Lambda)
+				expect(lazy { |a, b| a + b }.class).to eq(Iolite::Lazy)
 			end
 		end
 
 		describe "#call" do
 			it "call" do
-				expect(lambda { |a, b| a + b }.call(1, 2)).to eq(3)
+				expect(lazy { |a, b| a + b }.call(1, 2)).to eq(3)
 			end
 		end
 
 		describe "#bind" do
 			it "bind argument" do
-				expect(lambda { |a, b| a + b }.bind(1, 2).call()).to eq(3)
+				expect(lazy { |a, b| a + b }.bind(1, 2).call()).to eq(3)
 			end
 			it "bind placeholders" do
-				expect(lambda { |a, b| a + b }.bind(arg2, 2).call(2, 1)).to eq(3)
+				expect(lazy { |a, b| a + b }.bind(arg2, 2).call(2, 1)).to eq(3)
 			end
 			it "bind by placeholders" do
 				expect((arg1 - arg2).bind(arg2, 2).call(1, 1)).to eq(-1)
@@ -51,14 +51,14 @@ describe "Iolite Lambda" do
 		end
 
 		describe "#apply" do
-			it "apply lambda" do
+			it "apply lazy" do
 				expect(arg1.apply(1, 2).call(arg1 + arg2)).to eq(3)
 			end
 		end
 
 		describe "#+" do
-			it "call lambda" do
-				expect((lambda { |a, b| a + b } + 3).call(1, 2)).to eq(6)
+			it "call lazy" do
+				expect((lazy { |a, b| a + b } + 3).call(1, 2)).to eq(6)
 			end
 		end
 

@@ -14,10 +14,10 @@ module Iolite module Refinements
 				result
 			end
 
-			def to_call_by_eval
+			def to_call_by_eval binding = nil
 				Iolite.lambda { |*args|
 					gsub(/#{'#{(.*?)}'}/) {
-						eval($1).call(*args)
+						eval($1, binding).call(*args)
 					}
 				}
 			end

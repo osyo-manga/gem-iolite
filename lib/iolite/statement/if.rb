@@ -1,4 +1,4 @@
-require "iolite/lambda"
+require "iolite/lazy"
 require "iolite/functinal"
 
 module Iolite module Statement
@@ -10,7 +10,7 @@ module Iolite module Statement
 		end
 
 		def [](*else_)
-			Iolite.lambda { |*args|
+			Iolite.lazy { |*args|
 				if Iolite::Functinal.invoke(@cond, *args)
 					Iolite::Functinal.invoke_a(@then_, *args).last
 				else
@@ -26,7 +26,7 @@ module Iolite module Statement
 		end
 
 		def [](*then_)
-			if_then = Iolite::Lambda.new { |*args|
+			if_then = Iolite::Lazy.new { |*args|
 				if Iolite::Functinal.invoke(@cond, *args)
 					Iolite::Functinal.invoke_a(then_, *args).last
 				end

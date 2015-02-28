@@ -1,15 +1,15 @@
-require "iolite/lambda"
+require "iolite/lazy"
 
 module Iolite module Placeholders
 	def args
-		Lambda.new { |*args|
+		Lazy.new { |*args|
 			args
 		}
 	end
 	module_function :args
 
 	def argument index
-		Lambda.new { |*args|
+		Lazy.new { |*args|
 			args[index-1]
 		}
 	end

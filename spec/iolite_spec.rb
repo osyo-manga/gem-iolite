@@ -9,16 +9,16 @@ describe Iolite do
 
 	describe "Iolite" do
 		it "::lambda" do
-			expect(Iolite.lambda { |a, b| a + b }.class).to eq(Iolite::Lambda)
+			expect(Iolite.lazy { |a, b| a + b }.class).to eq(Iolite::Lazy)
 		end
 		it "::wrap" do
 			expect((Iolite.wrap lambda { |a, b| a + b }).call(1, 2).class).to eq(Proc)
 		end
 	end
 
-	describe "Iolite::Lambda" do
-		first = Iolite::lambda { |x| x }
-		plus = Iolite::lambda { |a, b| a + b }
+	describe "Iolite::Lazy" do
+		first = Iolite::lazy { |x| x }
+		plus = Iolite::lazy { |a, b| a + b }
 		describe "#call" do
 			it "call" do
 				expect(first.call(10)).to eq(10)
@@ -36,7 +36,7 @@ describe Iolite do
 
 		describe "#bind" do
 			include Iolite::Placeholders
-			f = Iolite::lambda { |a, b| a + b }
+			f = Iolite::lazy { |a, b| a + b }
 			it "argument" do
 				expect(f.bind(-3, 1).call()).to eq(-2)
 			end
@@ -44,7 +44,7 @@ describe Iolite do
 				expect(f.bind(arg2, arg1).call(-1, 3)).to eq(2)
 			end
 			it "operator" do
-				expect(Iolite::lambda(&:+).bind(arg2, arg1).call(-1, 3)).to eq(2)
+				expect(Iolite::lazy(&:+).bind(arg2, arg1).call(-1, 3)).to eq(2)
 			end
 		end
 
@@ -66,8 +66,8 @@ describe Iolite do
 			it "call lambda" do
 				expect(arg1.apply(1, 2).call(lambda { |a ,b| a + b })).to eq(3)
 			end
-			it "call Iolite::Lambda" do
-				expect(arg1.apply(1, 2).call(Iolite::lambda { |a ,b| a + b })).to eq(3)
+			it "call Iolite::Lazy" do
+				expect(arg1.apply(1, 2).call(Iolite::lazy { |a ,b| a + b })).to eq(3)
 			end
 		end
 
@@ -107,7 +107,7 @@ describe Iolite do
 			end
 			it "call Object#*" do
 				# not call method_missing
-				expect(first.class).to eq(Iolite::Lambda)
+				expect(first.class).to eq(Iolite::Lazy)
 			end
 			it "call Object#* from #send" do
 				expect(first.send(:class).call("homu")).to eq(String)

@@ -19,7 +19,7 @@ end
 x = X.new
 
 # To to_lazy object
-# to_lazy return "Iolite.lambda { |*args| self }"
+# to_lazy return "Iolite.lazy { |*args| self }"
 to_lazy_x = x.to_lazy
 
 # To to_lazy function

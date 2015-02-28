@@ -1,7 +1,7 @@
 require "iolite/version"
 require "iolite/adaptor"
 require "iolite/functinal"
-require "iolite/lambda"
+require "iolite/lazy"
 require "iolite/placeholders"
 require "iolite/statement"
 require "iolite/symbol"
