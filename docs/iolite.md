@@ -198,7 +198,7 @@ require "iolite/adaptored/object_with_to_lazy"
 
 #### Example
 
-```
+```ruby
 # (1..Float::INFINITY) を遅延評価する
 lazy_list = (1..Float::INFINITY).to_lazy
 twice_list = lazy_list.first(arg1).map(&arg1 * 2)
