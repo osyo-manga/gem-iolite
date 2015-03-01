@@ -67,5 +67,11 @@ describe "Iolite lazy" do
 				expect((arg1 == 3).call(3)).to eq(true)
 			end
 		end
+
+		describe "#===" do
+			it "call" do
+				expect((arg1 === arg2).call(/^m/, "mami")).to eq(true)
+			end
+		end
 	end
 end

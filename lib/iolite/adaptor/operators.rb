@@ -7,5 +7,6 @@ module Iolite module Adaptor
 		define_iolite_functinal_send_method :!
 		define_iolite_functinal_send_method :!=
 		define_iolite_functinal_send_method :!~
+		define_iolite_functinal_send_method :===
 	end
 end end
