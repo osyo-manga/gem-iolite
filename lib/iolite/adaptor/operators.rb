@@ -8,5 +8,19 @@ module Iolite module Adaptor
 		define_iolite_functinal_send_method :!=
 		define_iolite_functinal_send_method :!~
 		define_iolite_functinal_send_method :===
+
+		# &&
+		def product rhs
+			Lazy.new { |*args|
+				Functinal.invoke(self, *args) && Functinal.invoke(rhs, *args)
+			}
+		end
+
+		# ||
+		def disjunction rhs
+			Lazy.new { |*args|
+				Functinal.invoke(self, *args) || Functinal.invoke(rhs, *args)
+			}
+		end
 	end
 end end
