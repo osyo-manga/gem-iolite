@@ -1,4 +1,4 @@
-require "iolite/lazy"
+# require "iolite/lazy"
 
 module Iolite module Adaptor
 	module ToLazy

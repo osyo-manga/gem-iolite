@@ -35,9 +35,9 @@ describe "Iolite::Functinal" do
 		it "uncallable call" do
 			expect(invoke(Uncallable.new, 1).class).to eq(Uncallable)
 		end
-		it "uncallable proc" do
-			expect(invoke(proc { |a, b| a + b }, 1, 2).class).to eq(Proc)
-		end
+		#it "uncallable proc" do
+		#	expect(invoke(proc { |a, b| a + b }, 1, 2).class).to eq(Proc)
+		#end
 	end
 
 	describe ".invoke_a" do
@@ -62,15 +62,15 @@ describe "Iolite::Functinal" do
 	end
 
 	describe ".bind" do
-		it "bind callable" do
-			expect(bind(-> a, b { a + b }, 1, First.new).call(1, 2)).to eq(2)
-		end
-		it "bind method" do
-			expect(bind(:+.to_proc, 1, First.new).call(2)).to eq(3)
-		end
-		it "bind next" do
-			expect(bind(-> a, b { a + b }, bind(-> a, b { a + b }, First.new, First.new), First.new).call(3)).to eq(9)
-		end
+#		it "bind callable" do
+#			expect(bind(-> a, b { a + b }, 1, First.new).call(1, 2)).to eq(2)
+#		end
+#		it "bind method" do
+#			expect(bind(:+.to_proc, 1, First.new).call(2)).to eq(3)
+#		end
+#		it "bind next" do
+#			expect(bind(-> a, b { a + b }, bind(-> a, b { a + b }, First.new, First.new), First.new).call(3)).to eq(9)
+#		end
 		it "apply first" do
 			expect(bind(First.new, 1, 2).call(-> a, b { a + b })).to eq(3)
 		end

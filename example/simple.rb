@@ -40,7 +40,7 @@ p ["homu", "mami", "an"].inject 0, &arg1 + arg2.length
 p [{name: :homu}, {name: :mami}].map &arg1[:name]
 # => [:homu, :mami]
 
-p (1..5).map &arg1._to_s + ", "
+p (1..5).map &arg1.to_s + ", "
 # => 1, 2, 3, 4, 5,
 
 

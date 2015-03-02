@@ -10,7 +10,6 @@ fizzbuzz = if_else(
 	arg1
 )))
 
-
-puts (1..20).map &fizzbuzz
+p (1..20).map &fizzbuzz
 
 

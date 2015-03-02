@@ -2,7 +2,7 @@ load 'spec_helper.rb'
 require "iolite"
 require "iolite/adaptored/array"
 require "iolite/adaptored/hash"
-# require "iolite/adaptored/proc"
+require "iolite/adaptored/proc"
 require "iolite/adaptored/string"
 require "iolite/adaptored/object_with_to_lazy"
 
@@ -48,24 +48,24 @@ describe "Iolite Adaptored" do
 		end
 	end
 
-#	describe "Proc" do
-#		describe "operator" do
-#			it "proc" do
-#				expect((proc { 10 } + 20).call()).to eq(30)
-#			end
-#			it "lambda" do
-#				expect((lambda { 10 } + 20).call()).to eq(30)
-#			end
-#		end
-#		describe "bind" do
-#			it "proc" do
-#				expect(proc { |a, b| a + b }.bind(arg1, 2).call(1)).to eq(3)
-#			end
-#			it "lambda" do
-#				expect(proc { |a, b| a - b }.bind(2, arg1).call(1)).to eq(1)
-#			end
-#		end
-#	end
+	describe "Proc" do
+		describe "operator" do
+			it "proc" do
+				expect((proc { 10 } + 20).call()).to eq(30)
+			end
+			it "lambda" do
+				expect((lambda { 10 } + 20).call()).to eq(30)
+			end
+		end
+		describe "bind" do
+			it "proc" do
+				expect(proc { |a, b| a + b }.bind(arg1, 2).call(1)).to eq(3)
+			end
+			it "lambda" do
+				expect(proc { |a, b| a - b }.bind(2, arg1).call(1)).to eq(1)
+			end
+		end
+	end
 
 	describe "String" do
 		include Iolite::Placeholders

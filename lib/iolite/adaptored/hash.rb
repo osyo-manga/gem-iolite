@@ -1,4 +1,5 @@
 require "iolite/adaptor/all"
+require "iolite/adaptored/iolite_lazy_with_hash"
 
 class Hash
 	include Iolite::Adaptor::ToProc
@@ -11,4 +12,3 @@ class Hash
 		} ]
 	end
 end
-

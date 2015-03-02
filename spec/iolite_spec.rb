@@ -8,12 +8,12 @@ describe Iolite do
 	end
 
 	describe "Iolite" do
-		it "::lambda" do
+		it "::lazy" do
 			expect(Iolite.lazy { |a, b| a + b }.class).to eq(Iolite::Lazy)
 		end
-		it "::wrap" do
-			expect((Iolite.wrap lambda { |a, b| a + b }).call(1, 2).class).to eq(Proc)
-		end
+#		it "::wrap" do
+#			expect((Iolite.wrap lambda { |a, b| a + b }).call(1, 2).class).to eq(Proc)
+#		end
 	end
 
 	describe "Iolite::Lazy" do
@@ -166,7 +166,7 @@ describe Iolite do
 				expect(arg1.send(:class).bind(CallableFromIolite.new).call("homu")).to eq(String)
 			end
 			it "wrap" do
-				expect(arg1.send(:class).bind(Iolite.wrap CallableFromIolite.new).call("homu")).to eq(CallableFromIolite)
+				# expect(arg1.send(:class).bind(Iolite.wrap CallableFromIolite.new).call("homu")).to eq(CallableFromIolite)
 			end
 		end
 		describe "Adapt Array" do
