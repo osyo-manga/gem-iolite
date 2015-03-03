@@ -2,7 +2,7 @@
 
 ## これは何？
 
-式を遅延評価するためのライブラリです。
+式を遅延評価するためのライブラリです。  
 ブロックで行う処理を抽象化し、コードを簡略化することを目的としています。  
 ちなみにライブラリ名である iolite（アイオライト）は菫青石から取っています。
 
@@ -37,9 +37,9 @@
 上記のように呼び出したいメソッドに対して引数を渡したい場合はどうしてもブロックで記述する必要が出てきます。  
 このような場合に iolite を使用することですっきりとした記述をすることができます。
 
-
 ```ruby
-# Use iolite
+# iolite を使って書いてみる
+# arg1 は第一引数に置き換わり評価される
 ["homu", "mami", "mado"].select &arg1 =~ /^m/
 # => ["mami", "mado"]
 
@@ -47,10 +47,90 @@
 # => ["homu", "mami", "mado"]
 ```
 
+## 導入
 
-## Iolite::Lazy (class)
+#### install
+
+```shell
+$ gem install iolite
+```
+
+#### require
+
+```ruby
+require "iolite"
+```
+
+## 簡単な使い方
+
+iolite ではプレースホルダを使用して、式から遅延評価を行うオブジェクトを定義します。  
+プレースホルダは arg1, arg2, ...argN と定義されており、それぞれの引数番目の値に置き換わり評価されます。
+
+```ruby
+# プレースホルダは module Iolite::Placeholders で定義されている
+include Iolite::Placeholders
+
+# arg1 は第一引数を返す
+arg1.call(1, 2)
+# => 1
+
+# arg1 は第二引数を返す
+arg2.call(1, 2)
+# => 2
+```
+
+このプレースホルダからメソッドを呼び出すと、そのメソッドを遅延評価するオブジェクトを返します。
+
+```ruby
+# 第一引数に対して #capitalize メソッドを呼び出すオブジェクトを返す
+capitalize_ = arg1.capitalize
+
+capitalize_.call("homu")
+# => "Homu"
+capitalize_.call("an")
+# => "An"
+
+# メソッドの引数に対してプレースホルダを渡すこともできる
+plus = arg1 + arg2
+# plus = arg1.+(arg2)
+
+plus.call(1, 2)
+# => 3
+```
+
+次のようにメソッドチェーンやネストしてプレースホルダを使用することもできます。
+
+```
+# 連続してメソッドを呼び出すこともできる
+length_ = arg1.to_s(4).length
+length_.call(:homu)
+# => 4
+length_.call(42)
+# => 2
+
+# ネストして呼び出すことも可能
+f = arg1[arg2].length + arg1[arg3]
+f.call({ :name => "homu", :age => 13 }, :name, :age)
+# => 17
+```
+
+
+### ブロックに渡す
+
+& をつけることでブロックに渡すことができます。
+
+```ruby
+["homu", "mami", "mado"].select &arg1 =~ /^m/
+# => ["mami", "mado"]
+[:homu, :mami, :mado].inject 0, &arg1 + arg2.to_s.length
+# => 12
+```
+
+
+## Iolite::Lazy < BasicObject (class)
 
 Iolite::Lazy は遅延評価を行うためのオブジェクトです。
+プレースホルダなどはこのオブジェクトのラッパになります。
 
 ```ruby
 f = Iolite::Lazy.new { |a, b| a + b }
@@ -65,16 +145,18 @@ twice = Iolite::Lazy.new { |a| a + a }
 twice.call(2)
 # => 4
 
+# 演算子を遅延評価
 twice_plus3 = (twice + 3)
 twice_plus3.call(1) # to twice.call(1) + 3
 # => 5
 
-length_ = twice.length
-length_.call("homu") # to twice.call("homu").length
-# => 8
-length_.call("an") # to twice.call("mami").length
-# => 4
+# メソッド呼び出しを遅延評価
+upcase_ = twice.upcase
+upcase_.call("homu") # to twice.call("homu").upcase
+# => "HOMUHOMU"
 ```
+
+また、このクラスは BasicObject を継承していることに注意してください。
 
 #### Iolite::Lazy#call(*args)
 
@@ -91,34 +173,12 @@ it = Iolite::Lazy.new { |it| it }
 it.send(:length).call("homu") # to { |it| it }.call("homu").length
 ```
 
+`Object#send` を行ないたい場合は `#__send__` を使用してください。
+
 #### Iolite::Lazy#method_missing(name, *args)
 
 `Iolite::Lazy#send(name, *args)` を返します。  
 Iolite::Lazy で定義されていないメソッドであれば `#send` を使用することなくメソッドを遅延評価することができます。
-
-
-#### Iolite::Lazy で定義されているメソッド名を遅延評価する
-
-Iolite::Lazy (Object クラス) のメソッド名で遅延評価したい場合は `#send` または `_{呼び出したいメソッド名}` で遅延評価を定義する事ができます。
-
-```ruby
-Iolite::Lazy.new{}.class
-# => Iolite::Lazy
-
-# Object のメソッドを呼び出したい場合は #send を介して呼び出す
-to_s_ = Iolite::Lazy.new { |a| a }.send(:to_s)
-to_s_.call(42)
-# => "42"
-to_s_.call(:homu)
-# => "homu"
-
-# _ を着けて呼び出すことも可能
-class_ = Iolite::Lazy.new { |a| a }._class
-class_.call(10)
-# => Fixnum
-class_.call("homu")
-# => String
-```
 
 #### Iolite::Lazy#to_proc
 
@@ -133,7 +193,6 @@ it = Iolite::Lazy.new { |it| it }
 ["homu", "mami", "mado"].select &it =~ /^m/
 # => ["mami", "mado"]
 ```
-
 
 ## プレースホルダ
 
@@ -160,16 +219,16 @@ include Iolite::Placeholders
 (arg1 + arg2).call(1, 2)
 # => 3
 
-arg1._to_s.length.call(:homu)
+arg1.to_s.length.call(:homu)
 # => 4
 
 ["homu", "mami", "mado"].select(&arg1 =~ /^m/).map &arg1.capitalize
 # => ["Mami", "Mado"]
 
-(1..5).map &arg1._to_s(2)
+(1..5).map &arg1.to_s(2)
 # => ["1", "10", "11", "100", "101"]
 
-[:homu, :mami, :an].select &arg1._to_s.length > 3
+[:homu, :mami, :an].select &arg1.to_s.length > 3
 # => [:homu, :mami]
 ```
 
@@ -205,6 +264,11 @@ p twice_list.call(10)
 
 ["homu", "mami", "mado"].each &to_lazy.printf("%s:%s, ", arg1, arg1)
 # => homu:homu, mami:mami, mado:mado,
+
+a = { :name => "mami", :age => 13 }
+b = { :name => "mami" }
+a.reject &arg2 == b.to_lazy[arg1]
+# => { :age => 13 }
 ```
 
 
