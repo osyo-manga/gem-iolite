@@ -6,9 +6,7 @@ require "iolite/placeholders"
 require "iolite/statement"
 
 # Not support 1.9.x
-if RUBY_VERSION.to_f > 2.0
-	require "iolite/refinements"
-end
+require "iolite/refinements" if RUBY_VERSION.to_f > 2.0
 
 module Iolite
 	include Functinal
