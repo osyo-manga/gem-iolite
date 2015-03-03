@@ -45,4 +45,6 @@ module Iolite module Statement
 		If.new cond
 	end
 
+	module_function :if_
+
 end end

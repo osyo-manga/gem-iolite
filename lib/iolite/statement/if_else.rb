@@ -8,4 +8,5 @@ module Iolite module Statement
 			end
 		}
 	end
+	module_function :if_else
 end end
