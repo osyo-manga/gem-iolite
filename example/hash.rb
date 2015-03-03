@@ -2,7 +2,7 @@ require "iolite"
 
 # Use require
 # define Hash#to_proc
-require "iolite/adaptor/hash"
+require "iolite/adaptored/hash"
 
 include Iolite::Placeholders
 
