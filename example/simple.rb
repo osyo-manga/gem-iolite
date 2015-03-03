@@ -17,8 +17,8 @@ p ["homu", "mami", "an"].inject(0) { |memo, item| memo + item.length }
 p [{name: :homu}, {name: :mami}].map { |it| it[:name] }
 # => [:homu, :mami]
 
-p (1..5).map { |it| it.to_s + ", " }
-# => 1, 2, 3, 4, 5,
+p [:homu, :mami, :mado].select { |it| it =~ /^m/ }
+# => [:mami, :mado]
 
 
 #######################################
@@ -40,7 +40,7 @@ p ["homu", "mami", "an"].inject 0, &arg1 + arg2.length
 p [{name: :homu}, {name: :mami}].map &arg1[:name]
 # => [:homu, :mami]
 
-p (1..5).map &arg1.to_s + ", "
-# => 1, 2, 3, 4, 5,
+p [:homu, :mami, :mado].select &arg1 =~ /^m/
+# => [:mami, :mado]
 
 
