@@ -73,5 +73,20 @@ describe "Iolite lazy" do
 				expect((arg1 === arg2).call(/^m/, "mami")).to eq(true)
 			end
 		end
+
+		describe "#to_s" do
+			it "Symbol#to_s" do
+				expect(arg1.to_s.call(:mami)).to eq("mami")
+			end
+			it "Fixnum#to_s" do
+				expect(arg1.to_s.call(42)).to eq("42")
+			end
+		end
+
+		describe "#class" do
+			it "Symbol#class" do
+				expect(arg1.class.call(:mami)).to eq(Symbol)
+			end
+		end
 	end
 end
