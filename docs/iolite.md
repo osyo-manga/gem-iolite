@@ -158,6 +158,11 @@ upcase_.call("homu") # to twice.call("homu").upcase
 
 また、このクラスは BasicObject を継承していることに注意してください。
 
+#### Iolite::Lazy#initialize &block
+
+遅延評価を行うブロックを渡してオブジェクトを作成します。
+このブロックは `#call` の呼び出し時に評価されます。
+
 #### Iolite::Lazy#call(*args)
 
 初期化時に渡したブロックを評価します。
@@ -172,8 +177,6 @@ name という名前のメソッドを遅延評価します。
 it = Iolite::Lazy.new { |it| it }
 it.send(:length).call("homu") # to { |it| it }.call("homu").length
 ```
-
-`Object#send` を行ないたい場合は `#__send__` を使用してください。
 
 #### Iolite::Lazy#method_missing(name, *args)
 
