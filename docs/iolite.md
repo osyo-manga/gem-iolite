@@ -266,11 +266,9 @@ b = Proc.new { |it| it + it }
 (a + b).call(3)
 # => 9
 
-# #to_proc や #method なども使用できるようになります
-(:to_s.to_proc).call(42)
-# => "42"
-(method(:eval)).call("1 + 2")
-# => 3
+# こんな使い方とか
+p (arg1 + :to_s.to_proc.call(arg2)).call("homu", 42)
+# => "homu42"
 ```
 
 ## Object#to_lazy
