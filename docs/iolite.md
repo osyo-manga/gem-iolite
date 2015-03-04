@@ -197,6 +197,7 @@ it = Iolite::Lazy.new { |it| it }
 # => ["mami", "mado"]
 ```
 
+
 ## プレースホルダ
 
 プレースホルダは任意の引数値に対して遅延評価を行うために使用します。  
@@ -233,6 +234,43 @@ arg1.to_s.length.call(:homu)
 
 [:homu, :mami, :an].select &arg1.to_s.length > 3
 # => [:homu, :mami]
+```
+
+## Proc と併用して使用する
+
+定義した式の中で `Iolite::Lazy` やプレースホルダ使用すると評価時に `Iolite::Lazy` オブジェクトが遅延評価されます。
+しかし、Proc などを渡した場合には `Iolite::Lazy` のように評価時に処理は行われません。
+
+```ruby
+a = Iolite::Lazy.new { |it| it }
+b = Proc.new { |it| it + it }
+
+# Proc は遅延評価されないので 3 + Proc が行われようとしてエラーになる
+p (a + b).call(3)
+# => error: `+': Proc can't be coerced into Fixnum (TypeError)
+```
+
+これは、意図しない副作用を抑えるためにデフォルトでは Proc は遅延評価を行わないようにしているからです。
+Proc も同様に評価して欲しい場合は以下の `require` を追加してモンキーパッチを適用してください。
+
+```ruby
+# モンキーパチを適用させるための require
+require "iolite/adaptored/proc_with_callable"
+
+a = Iolite::Lazy.new { |it| it }
+b = Proc.new { |it| it + it }
+
+# Proc が遅延評価されるようになるので
+# a.call(3) + b.call(3)
+# と評価される
+(a + b).call(3)
+# => 9
+
+# #to_proc や #method なども使用できるようになります
+(:to_s.to_proc).call(42)
+# => "42"
+(method(:eval)).call("1 + 2")
+# => 3
 ```
 
 ## Object#to_lazy
