@@ -65,10 +65,14 @@ describe "Iolite Adaptored" do
 				expect(proc { |a, b| a - b }.bind(2, arg1).call(1)).to eq(1)
 			end
 		end
+		describe "Symbol" do
+			it "#to_proc" do
+				expect((arg1.to_s + :to_s.to_proc).call(42)).to eq("4242")
+			end
+		end
 	end
 
 	describe "String" do
-		include Iolite::Placeholders
 		it "call" do
 			expect("value:#{arg1}:#{arg2}".call(1, 2)).to eq("value:1:2")
 		end
