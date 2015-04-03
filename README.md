@@ -2,7 +2,7 @@
 
 # Iolite
 
-TODO: Write a gem description
+Lazy block library.
 
 ## Installation
 
@@ -68,3 +68,16 @@ p [{name: :homu}, {name: :mami}].map &arg1[:name]
 3. Commit your changes (`git commit -am 'Add some feature'`)
 4. Push to the branch (`git push origin my-new-feature`)
 5. Create a new Pull Request
+
+## Release note
+
+### v0.0.2
+
+* Fix Iolite::Statement module method.
+* Add `iolite/adaptored/proc_with_callable`.
+
+### v0.0.1
+
+* Release
+
+
