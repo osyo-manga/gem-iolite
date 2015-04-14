@@ -1,4 +1,4 @@
-# iotelite
+# iolite
 
 ## これは何？
 
@@ -254,7 +254,7 @@ p (a + b).call(3)
 Proc も同様に評価して欲しい場合は以下の `require` を追加してモンキーパッチを適用してください。
 
 ```ruby
-# モンキーパチを適用させるための require
+# モンキーパッチを適用させるための require
 require "iolite/adaptored/proc_with_callable"
 
 a = Iolite::Lazy.new { |it| it }
