@@ -20,6 +20,7 @@ Or install it yourself as:
 
 ## Usage
 
+
 ```ruby
 require "iolite"
 
@@ -70,6 +71,10 @@ p [{name: :homu}, {name: :mami}].map &arg1[:name]
 5. Create a new Pull Request
 
 ## Release note
+
+### v0.0.3
+
+* Fix dcs typo.
 
 ### v0.0.2
 
