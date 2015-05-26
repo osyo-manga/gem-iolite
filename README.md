@@ -41,6 +41,8 @@ p ["homu", "mami", "an"].inject(0) { |memo, item| memo + item.length }
 p [{name: :homu}, {name: :mami}].map { |it| it[:name] }
 # => [:homu, :mami]
 
+5.times{ |it| p it + 5 }
+
 
 #######################################
 # Using iolite
@@ -60,6 +62,12 @@ p ["homu", "mami", "an"].inject 0, &arg1 + arg2.length
 
 p [{name: :homu}, {name: :mami}].map &arg1[:name]
 # => [:homu, :mami]
+
+
+# Use Object#to_lazy
+require "iolite/adaptored/object_with_to_lazy"
+
+5.times &to_lazy.p(arg1 + 3)
 ```
 
 ## Contributing
