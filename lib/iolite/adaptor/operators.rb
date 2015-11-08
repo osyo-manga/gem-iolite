@@ -15,6 +15,7 @@ module Iolite module Adaptor
 				Functinal.invoke(self, *args) && Functinal.invoke(rhs, *args)
 			}
 		end
+		alias_method :andand, :product
 
 		# ||
 		def disjunction rhs
@@ -22,5 +23,6 @@ module Iolite module Adaptor
 				Functinal.invoke(self, *args) || Functinal.invoke(rhs, *args)
 			}
 		end
+		alias_method :oror, :disjunction
 	end
 end end

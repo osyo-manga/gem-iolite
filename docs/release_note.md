@@ -2,6 +2,8 @@
 
 ## v0.0.4
 
+* Add `Lazy#andand`, `Lazy#oror`
+
 ## v0.0.3
 
 * Fix dcs typo
