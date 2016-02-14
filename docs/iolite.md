@@ -74,7 +74,7 @@ include Iolite::Placeholders
 arg1.call(1, 2)
 # => 1
 
-# arg1 は第二引数を返す
+# arg2 は第二引数を返す
 arg2.call(1, 2)
 # => 2
 ```
