@@ -37,18 +37,6 @@ using Iolite::Refinements::ObjectWithToLazy
 
 ###########################################################
 # default
-[:foo, :hoge, :bar, :fuga].select{|s| s.to_s.length > 3}
-# => [:hoge, :fuga]
-
-# lambda_driver
-[:foo, :hoge, :bar, :fuga].select(&:to_s >> :length >> 3._(:<))
-
-# iolite
-[:foo, :hoge, :bar, :fuga].select &arg1.to_s.length > 3
-
-
-###########################################################
-# default
 (1..10).select { |it| it % 2 == 0 }
 # => [2, 4, 6, 8, 10]
 
