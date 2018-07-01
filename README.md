@@ -80,6 +80,10 @@ require "iolite/adaptored/object_with_to_lazy"
 
 ## Release note
 
+### v0.2.0
+
+* Release New!
+
 ### v0.0.3
 
 * Fix dcs typo.
