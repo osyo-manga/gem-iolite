@@ -4,14 +4,15 @@ require "iolite/functinal/invoke"
 module Iolite module Refinements
 	module String
 		refine ::String do
-			include Iolite::Adaptor::ToProc
-			include Iolite::Adaptor::Callable
 			def call *args
-				result = self.clone
-				args.each_with_index { |it, i|
-					result.gsub! Iolite::Placeholders.const_get("ARG#{i+1}").to_s, it.to_s
+				gsub(/#{'#Iolite::Lazy{(.*?)}'}/) {
+					ObjectSpace._id2ref($1.to_i).call *args
 				}
-				result
+# 				result = self.clone
+# 				args.each_with_index { |it, i|
+# 					result.gsub! Iolite::Placeholders.const_get("ARG#{i+1}").to_s, it.to_s
+# 				}
+# 				result
 			end
 
 			def to_call_by_eval binding = nil
@@ -20,6 +21,12 @@ module Iolite module Refinements
 						eval($1, binding).call(*args)
 					}
 				}
+			end
+		end
+
+		refine ::Iolite::Lazy do
+			def iolite_s
+				"#Iolite::Lazy{#{__id__}}"
 			end
 		end
 	end
