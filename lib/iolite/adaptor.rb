@@ -1,2 +1,0 @@
-require "iolite/adaptor/all"
-

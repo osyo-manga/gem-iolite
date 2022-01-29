@@ -63,19 +63,19 @@ require "iolite"
 
 ## 簡単な使い方
 
-iolite ではプレースホルダを使用して、式から遅延評価を行うオブジェクトを定義します。  
+iolite ではプレースホルダを使用して、式から遅延評価を行うオブジェクトを定義します。
 プレースホルダは arg1, arg2, ...argN と定義されており、それぞれの引数番目の値に置き換わり評価されます。
 
 ```ruby
-# プレースホルダは module Iolite::Placeholders で定義されている
-include Iolite::Placeholders
+# arg1, arg2 を使えるようにする
+using Iolite
 
 # arg1 は第一引数を返す
-arg1.call(1, 2)
+p arg1.call(1, 2)
 # => 1
 
 # arg2 は第二引数を返す
-arg2.call(1, 2)
+p arg2.call(1, 2)
 # => 2
 ```
 
@@ -168,24 +168,41 @@ upcase_.call("homu") # to twice.call("homu").upcase
 初期化時に渡したブロックを評価します。
 
 
-#### Iolite::Lazy#send(name, *args)
-
-name という名前のメソッドを遅延評価します。  
-遅延評価した結果に対して `#send(name, *args)` を呼び出す Iolite::Lazy を返します。
-
-```ruby
-it = Iolite::Lazy.new { |it| it }
-it.send(:length).call("homu") # to { |it| it }.call("homu").length
-```
-
 #### Iolite::Lazy#method_missing(name, *args)
 
-`Iolite::Lazy#send(name, *args)` を返します。  
-Iolite::Lazy で定義されていないメソッドであれば `#send` を使用することなくメソッドを遅延評価することができます。
+`name` を呼び出すメソッドを遅延評価します。
+`Iolite::Lazy` で定義されているメソッドは呼び出せません。
+
+```ruby
+require "iolite"
+
+it = Iolite::Lazy.new { |value| value }
+
+# 42.to_s(2) を遅延評価する
+p it.to_s(2).call(42)
+# => "101010"
+
+# hash は Iolite::Lazy で定義されているのでそのメソッドが呼び出される
+p it.hash
+# => 1769715438093783847
+```
+
+#### Iolite::Lazy#__lazy_send__(name, *args)
+
+name という名前のメソッドを遅延評価します。
+遅延評価した結果に対して `#__lazy_send__(name, *args)` を呼び出す Iolite::Lazy を返します。
+`BasicObject` で定義されているメソッドを呼び出したい場合に利用します。
+
+```ruby
+require "iolite"
+
+it = Iolite::Lazy.new { |it| 42 }
+p it.__lazy_send__()
+```
 
 #### Iolite::Lazy#to_proc
 
-`#call` を呼び出す Proc を返します。  
+`#call` を呼び出す Proc を返します。
 これにより & を着けてブロックに渡すことができます。
 
 ```ruby
@@ -236,54 +253,13 @@ arg1.to_s.length.call(:homu)
 # => [:homu, :mami]
 ```
 
-## Proc と併用して使用する
-
-定義した式の中で `Iolite::Lazy` やプレースホルダ使用すると評価時に `Iolite::Lazy` オブジェクトが遅延評価されます。
-しかし、Proc などを渡した場合には `Iolite::Lazy` のように評価時に処理は行われません。
-
-```ruby
-a = Iolite::Lazy.new { |it| it }
-b = Proc.new { |it| it + it }
-
-# Proc は遅延評価されないので 3 + Proc が行われようとしてエラーになる
-p (a + b).call(3)
-# => error: `+': Proc can't be coerced into Fixnum (TypeError)
-```
-
-これは、意図しない副作用を抑えるためにデフォルトでは Proc は遅延評価を行わないようにしているからです。
-Proc も同様に評価して欲しい場合は以下の `require` を追加してモンキーパッチを適用してください。
-
-```ruby
-# モンキーパッチを適用させるための require
-require "iolite/adaptored/proc_with_callable"
-
-a = Iolite::Lazy.new { |it| it }
-b = Proc.new { |it| it + it }
-
-# Proc が遅延評価されるようになるので
-# a.call(3) + b.call(3)
-# と評価される
-(a + b).call(3)
-# => 9
-
-# こんな使い方とか
-p (arg1 + :to_s.to_proc.call(arg2)).call("homu", 42)
-# => "homu42"
-```
-
 ## Object#to_lazy
 
 `Object#to_lazy` は自身を遅延評価するオブジェクト（Iolite::Lazy オブジェクト）として返すメソッドです。
-`Object#to_lazy` を使用したい場合は refinements が使える環境であれば、
+`Object#to_lazy` を使用したい場合は
 
 ```ruby
-using Iolite::Refinements::ObjectWithToLazy
-```
-
-refinements が使えない、もしくは直接 Object を拡張したい場合は
-
-```ruby
-require "iolite/adaptored/object_with_to_lazy"
+using Iolite
 ```
 
 することで利用することができます。
@@ -292,6 +268,10 @@ require "iolite/adaptored/object_with_to_lazy"
 #### Example
 
 ```ruby
+require "iolite"
+
+using Iolite
+
 # (1..Float::INFINITY) を遅延評価する
 lazy_list = (1..Float::INFINITY).to_lazy
 twice_list = lazy_list.first(arg1).map(&arg1 * 2)
@@ -306,7 +286,7 @@ p twice_list.call(10)
 
 a = { :name => "mami", :age => 13 }
 b = { :name => "mami" }
-a.reject &arg2 == b.to_lazy[arg1]
+p a.reject &arg2 == b.to_lazy[arg1]
 # => { :age => 13 }
 ```
 
